@@ -8,6 +8,7 @@ public class Categoria {
 		this.id = id;
 	} 
 	
+	
 	public String getDescricao() {
 		return descricao;
 	}
