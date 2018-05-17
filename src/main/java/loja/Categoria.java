@@ -6,7 +6,8 @@ public class Categoria {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
+	} 
+	
 	public String getDescricao() {
 		return descricao;
 	}

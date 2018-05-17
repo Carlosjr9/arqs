@@ -7,6 +7,7 @@ public class Cliente {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public Long getId() {
 		return id;
 	}
