@@ -8,6 +8,7 @@ public class Cliente {
 		// TODO Auto-generated constructor stub
 	}
 	
+	
 	public Long getId() {
 		return id;
 	}

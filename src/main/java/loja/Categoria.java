@@ -39,6 +39,7 @@ public class Categoria {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
