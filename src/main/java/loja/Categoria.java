@@ -1,5 +1,26 @@
 package loja;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+@Entity
+@Table(name = "tb_categoria", uniqueConstraints = { @UniqueConstraint(columnNames = { "descricao" }) })
+
+@NamedQueries({
+		@NamedQuery(name = "Categoria.findByName", query = "select o from Categoria o where o.nome like :nome") })
+
 public class Categoria {
 	public Long getId() {
 		return id;
@@ -20,7 +41,14 @@ public class Categoria {
 		this.id = id;
 		this.descricao = descricao;
 	}
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank
+	@Pattern(regexp="[A-zÀ-ú ´\\-\\/]*", message="Caracteres permitidos: letras, espaços, acentos, ponto, barra e aspas simples")
+	@Size(max=100)
+	@Column(length=100, nullable=false)
 	private String descricao;
 	@Override
 	public String toString() {
@@ -60,5 +88,13 @@ public class Categoria {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	@Version
+	private Long version;
+	public Long getVersion() {
+		return version;
+	}
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 }

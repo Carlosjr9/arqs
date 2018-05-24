@@ -2,6 +2,35 @@ package loja;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+
+@Entity
+@Table(name="tb_produto", uniqueConstraints = {
+	    @UniqueConstraint(columnNames = { "nome"})
+	})
+
+@NamedQueries({
+	@NamedQuery(name="Produto.findByName", query = "select o from Categoria o where o.nome like :nome")
+})
+
 public class Produto {
 	public Produto() {
 		super();
@@ -54,12 +83,39 @@ public class Produto {
 	public void setFabricante(String fabricante) {
 		this.fabricante = fabricante;
 	}
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank
+	@Size(min=3, max=100)
+	@Pattern(regexp="[A-zÀ-ú.´ ]*", message="Caracteres permitidos: letras, espaços, ponto e aspas simples")
+	@Column(length=100, nullable=false)
 	private String nome;
+	
+	@NotBlank
+	@Pattern(regexp="[A-zÀ-ú ´\\-\\/]")
+	@Size(max=4000)
+	@Column(length=4000, nullable=false)
 	private String descricao;
+	
+	@NotNull
+	@ManyToOne(optional=false)
+	@JoinColumn(name="id_categoria", referencedColumnName="id")
 	private Categoria categoria;
+	
+	@NotNull
+	@Min(0)
+	@Column(length=16, nullable=false)
 	private BigDecimal preco;
+	
+	@NotBlank
+	@Pattern(regexp="[A-zÀ-ú.´ ]*", message="Caracteres permitidos: letras, espaços, ponto e aspas simples")
+	@Size(max=100)
+	@Column(nullable=false)
 	private String fabricante;
+	
+	
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", categoria=" + categoria
@@ -119,6 +175,13 @@ public class Produto {
 		return true;
 	}
 	
-	
+	@Version
+	private Long version;
+	public Long getVersion() {
+		return version;
+	}
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 
 }
