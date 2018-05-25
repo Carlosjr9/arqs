@@ -1,4 +1,4 @@
-package loja;
+package br.unibh.loja;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,6 +16,10 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import loja.Categoria;
+import loja.Cliente;
+import loja.Produto;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -104,5 +108,6 @@ public class Teste {
 			System.out.println(" Erro de Validacao: "+cl.getMessage());
 		}
 		Assert.assertEquals(7, constraintViolations.size() );
+		
 	}
 }

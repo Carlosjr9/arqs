@@ -1,6 +1,6 @@
 package loja;
 
-import java.sql.Date;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -103,7 +103,7 @@ public class Cliente {
 	}
 	
 	public Cliente(Long id, String nome, String login, String senha, String perfil, String cpf, String telefone,
-			String email, java.util.Date dataNascimento, java.util.Date dataCadastro) {
+			String email, Date dataNascimento, Date dataCadastro) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -113,8 +113,8 @@ public class Cliente {
 		this.cpf = cpf;
 		this.telefone = telefone;
 		this.email = email;
-		this.dataNascimento = (Date) dataNascimento;
-		this.dataCadastro = (Date) dataCadastro;
+		this.dataNascimento = dataNascimento;
+		this.dataCadastro = dataCadastro;
 	}
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
