@@ -10,6 +10,7 @@ public interface DAO<T, K> {
 	public void delete(T t) throws Exception;
 
 	public T find(K k) throws Exception;
+	
 
 	public List<T> findAll() throws Exception;
 

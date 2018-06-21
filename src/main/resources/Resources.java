@@ -1,4 +1,5 @@
-package br.unibh.loja.util;
+package loja;
+
 
 import java.util.logging.Logger;
 import javax.enterprise.inject.Produces;

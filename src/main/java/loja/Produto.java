@@ -28,8 +28,9 @@ import org.hibernate.validator.constraints.NotBlank;
 	})
 
 @NamedQueries({
-	@NamedQuery(name="Produto.findByName", query = "select o from Categoria o where o.nome like :nome")
+	@NamedQuery(name="Produto.findByName", query = "select o from Produto o where o.nome like :nome")
 })
+
 
 public class Produto {
 	public Produto() {

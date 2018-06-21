@@ -1,6 +1,7 @@
 package loja;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,10 +30,11 @@ import org.hibernate.validator.constraints.br.CPF;
 	})
 
 @NamedQueries({
-	@NamedQuery(name="Client.findByName", query = "select o from Categoria o where o.nome like :nome")
+	@NamedQuery(name="Cliente.findByName", query = "select o from Cliente o where o.nome like :nome")
 })
 
 public class Cliente {
+	
 	
 	
 	public Long getId() {
@@ -102,6 +104,10 @@ public class Cliente {
 				+ ", dataCadastro=" + dataCadastro + "]";
 	}
 	
+	public Cliente() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Cliente(Long id, String nome, String login, String senha, String perfil, String cpf, String telefone,
 			String email, Date dataNascimento, Date dataCadastro) {
 		super();
