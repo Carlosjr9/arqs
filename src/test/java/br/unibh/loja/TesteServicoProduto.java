@@ -4,8 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
+import java.math.BigDecimal;
 import java.util.logging.Logger;
+
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -19,20 +20,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-import loja.Cliente;
+import loja.Categoria;
+import loja.Produto;
 import br.unibh.loja.negocio.DAO;
-import br.unibh.loja.negocio.ServicoCliente;
+import br.unibh.loja.negocio.ServicoCategoria;
+import br.unibh.loja.negocio.ServicoProduto;
 import br.unibh.loja.util.Resources;
 
 @RunWith(Arquillian.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TesteServicoCliente {
+public class TesteServicoProduto {
 
 	@Deployment
 	public static Archive<?> createTestArchive() {
 		// Cria o pacote que vai ser instalado no Wildfly para realizacao dos testes
 		return ShrinkWrap.create(WebArchive.class, "testeloja.war")
-				.addClasses(Cliente.class, ServicoCliente.class,	DAO.class, Resources.class)
+				.addClasses(Produto.class, Categoria.class, DAO.class, ServicoProduto.class, Resources.class)
 				.addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
@@ -42,54 +45,56 @@ public class TesteServicoCliente {
 		private Logger log;
 		
 		@Inject
-		private ServicoCliente sc;
+		private ServicoProduto sp;
 		
 		@Test
-		public void teste01_inserirClienteSemErro() throws Exception {
+		public void teste01_inserirProdutoSemErro() throws Exception {
+			System.out.println(log);
 			log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
-			Cliente o = new Cliente(null, "Cliente", "cliente", "123456789", "perfil", "224556232-88", "(31)99998888", "cliente@cliente.com", new Date(), new Date());
-			sc.insert(o);
-			Cliente aux = (Cliente) sc.findByName("Cliente").get(0);
+			Categoria c = new Categoria(null, "Descricao Categoria");
+			Produto o = new Produto(null, "Produto", "Descricao", c, new BigDecimal(300), "Fabricante");
+			sp.insert(o);
+			Produto aux = (Produto) sp.findByName("Produto").get(0);
 			assertNotNull(aux);
 			log.info("============> Finalizando o teste " +
 			Thread.currentThread().getStackTrace()[1].getMethodName());
 		}
 		
 		@Test
-		public void teste02_inserirClienteComErro() throws Exception {
+		public void teste02_inserirProdutoComErro() throws Exception {
 			log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
 			try {
-				Cliente o = new Cliente(null, "Cliente1", "cliénte", "123", "perfil1", "26.232-88", "3-1399998888", "cliente", new Date(), new Date());
-			sc.insert(o);
+				Categoria c = new Categoria(1L, "Descricao Categoria");
+				Produto o = new Produto(1L, "(Produto1)", "Descricao1", c, new BigDecimal(-2), "Farbicante1");
+				sp.insert(o);
 			} catch (Exception e){
-				assertTrue(checkString(e, "CPF inválido"));
+				assertTrue(checkString(e, "Caracteres permitidos: letras, espaços, acentos, ponto, barra e aspas simples"));
 			}
 			log.info("============> Finalizando o teste " +
 			Thread.currentThread().getStackTrace()[1].getMethodName());
 		}
 		
 		@Test
-			public void teste03_atualizarCliente() throws Exception {
+			public void teste03_atualizarProduto() throws Exception {
 			log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
-			Cliente o = (Cliente) sc.find(1L);
-			o.setNome("Pedro");
-			sc.update(o);
-			Cliente aux = (Cliente) sc.find(1L);
+			Produto o = (Produto) sp.find(1L);
+			o.setDescricao("Produto teste atualizar");
+			sp.update(o);
+			Produto aux = (Produto) sp.find(1L);
 			assertNotNull(aux);
 			log.info("============> Finalizando o teste " +
 			Thread.currentThread().getStackTrace()[1].getMethodName());
 		}
 		
 		@Test
-			public void teste04_excluirCliente() throws Exception {
+			public void teste04_excluirProduto() throws Exception {
 			log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
-			Cliente o = (Cliente) sc.findByName("Cliente").get(0);
-			sc.delete(o);
-			assertEquals(0, sc.findByName("Pedro").size());
+			Produto o = (Produto) sp.findByName("Produto").get(0);
+			sp.delete(o);
+			assertEquals(0, sp.findByName("Produto teste atualizar").size());
 			log.info("============> Finalizando o teste " +
 			Thread.currentThread().getStackTrace()[1].getMethodName());
 		}
-		
 		private boolean checkString(Throwable e, String str){
 		if (e.getMessage().contains(str)){
 			return true;
@@ -98,5 +103,4 @@ public class TesteServicoCliente {
 			}
 			return false;
 		}
-
 }
