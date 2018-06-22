@@ -124,6 +124,17 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 					<version>2.1.0.Final</version>
 					<scope>test</scope>
 				</dependency>
+				<dependency>
+<groupId>org.jboss.resteasy</groupId>
+	<artifactId>resteasy-jaxrs</artifactId>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+<groupId>io.swagger</groupId>
+<artifactId>swagger-jaxrs</artifactId>
+<version>1.5.19</version>
+</dependency>
+				
 			</dependencies>
 		</profile>
 	</profiles>
