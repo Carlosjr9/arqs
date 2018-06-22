@@ -45,21 +45,21 @@ public class TesteServicoCliente {
 		private ServicoCliente sc;
 		
 		@Test
-		public void teste01_inserirClienteSemErro() throws Exception {
+		public void teste01_inserirClienteeSemErro() throws Exception {
 			log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
-			Cliente o = new Cliente(null, "Cliente", "cliente", "123456789", "perfil", "224556232-88", "(31)99998888", "cliente@cliente.com", new Date(), new Date());
+			Cliente o = new Cliente(null, "Clientee", "Clienteetre", "123456789", "perfil", "13143909617", "(31)09999-8888", "Clientee@Clientee.com", new Date(), new Date());
 			sc.insert(o);
-			Cliente aux = (Cliente) sc.findByName("Cliente").get(0);
+			Cliente aux = (Cliente) sc.findByName("Clientee").get(0);
 			assertNotNull(aux);
 			log.info("============> Finalizando o teste " +
 			Thread.currentThread().getStackTrace()[1].getMethodName());
 		}
 		
 		@Test
-		public void teste02_inserirClienteComErro() throws Exception {
+		public void teste02_inserirClienteeComErro() throws Exception {
 			log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
 			try {
-				Cliente o = new Cliente(null, "Cliente1", "cliénte", "123", "perfil1", "26.232-88", "3-1399998888", "cliente", new Date(), new Date());
+				Cliente o = new Cliente(null, "Clientee1", "cliénte", "123", "perfil1", "26.232-88", "3-1399998888", "Clientee", new Date(), new Date());
 			sc.insert(o);
 			} catch (Exception e){
 				assertTrue(checkString(e, "CPF inválido"));
@@ -69,21 +69,21 @@ public class TesteServicoCliente {
 		}
 		
 		@Test
-			public void teste03_atualizarCliente() throws Exception {
+			public void teste03_atualizarClientee() throws Exception {
 			log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
-			Cliente o = (Cliente) sc.find(1L);
+			Cliente o = (Cliente) sc.findByName("Clientee").get(0);
 			o.setNome("Pedro");
 			sc.update(o);
-			Cliente aux = (Cliente) sc.find(1L);
+			Cliente aux = (Cliente) sc.findByName("Pedro").get(0);
 			assertNotNull(aux);
 			log.info("============> Finalizando o teste " +
 			Thread.currentThread().getStackTrace()[1].getMethodName());
 		}
 		
 		@Test
-			public void teste04_excluirCliente() throws Exception {
+			public void teste04_excluirClientee() throws Exception {
 			log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
-			Cliente o = (Cliente) sc.findByName("Cliente").get(0);
+			Cliente o = (Cliente) sc.findByName("Pedro").get(0);
 			sc.delete(o);
 			assertEquals(0, sc.findByName("Pedro").size());
 			log.info("============> Finalizando o teste " +

@@ -19,12 +19,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import loja.Categoria;
+import loja.Produto;
 import br.unibh.loja.negocio.DAO;
 import br.unibh.loja.negocio.ServicoCategoria;
 import br.unibh.loja.util.Resources;
-import loja.Categoria;
-import loja.Produto;
-
 
 @RunWith(Arquillian.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -51,7 +50,7 @@ public class TesteServicoCategoria {
 		log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		Categoria o = new Categoria(null, "Categoria teste");
 		sc.insert(o);
-		Categoria aux = (Categoria) sc.findByName("Categoria teste");
+		Categoria aux = (Categoria) sc.findByName("Categoria teste").get(0);
 		assertNotNull(aux);
 		log.info("============> Finalizando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
 	}
@@ -60,7 +59,7 @@ public class TesteServicoCategoria {
 	public void teste02_inserirCategoriaComErro() throws Exception {
 		log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		try {
-			Categoria o = new Categoria(1L, null);
+			Categoria o = new Categoria(null, null);
 			sc.insert(o);
 		} catch (Exception e) {
 			assertTrue(checkString(e, "Não pode estar em branco"));
@@ -71,10 +70,10 @@ public class TesteServicoCategoria {
 	@Test
 	public void teste03_atualizarCategoria() throws Exception {
 		log.info("============> Iniciando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		Categoria o = (Categoria) sc.find(1L);
+		Categoria o = (Categoria) sc.findByName("Categoria teste").get(0);
 		o.setDescricao("Categoria teste atualizar");
 		sc.update(o);
-		Categoria aux = (Categoria) sc.find(1L);
+		Categoria aux = (Categoria) sc.findByName("Categoria teste atualizar").get(0);
 		assertNotNull(aux);
 		log.info("============> Finalizando o teste " + Thread.currentThread().getStackTrace()[1].getMethodName());
 	}

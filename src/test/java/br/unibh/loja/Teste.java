@@ -12,10 +12,10 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.junit.Assert;
+import org.junit.runners.MethodSorters;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import loja.Categoria;
 import loja.Cliente;
@@ -37,7 +37,7 @@ public class Teste {
 	@Test
 	public void testeProduto() {
 		Categoria c = new Categoria(1L, "Categoria");
-		Produto p = new Produto(1L, "Produto", "Descricao-", c, new BigDecimal(2), "Farbicante");
+		Produto p = new Produto(1L, "Produto", "Descricao@", c, new BigDecimal(2), "Farbicante");
 		assertEquals(p.getNome(), "Produto");
 		System.out.println(p);
 		
@@ -86,10 +86,9 @@ public class Teste {
 	}
 	
 	
-	
 	@Test
 	public void testeCliente() {
-		Cliente c = new Cliente(1L, "Cliente", "Cliente", "123456789", "perfil", "224556232-88", "(31)99998888", "Clientee@Clientee.com", new Date(), new Date());
+		Cliente c = new Cliente(1L, "Cliente", "cliente", "123456789", "perfil", "224556232-88", "(31)99998888", "cliente@cliente.com", new Date(), new Date());
 		System.out.print(c);
 		Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate( c );
 		for (ConstraintViolation<Cliente> cl: constraintViolations) {
@@ -101,13 +100,12 @@ public class Teste {
 	
 	@Test
 	public void testeCliente2() {
-		Cliente c = new Cliente(1L, "Clientee1", "cliénte", "123", "perfil1", "26.232-88", "3-1399998888", "Clientee", new Date(), new Date());
+		Cliente c = new Cliente(1L, "Cliente1", "cliénte", "123", "perfil1", "26.232-88", "3-1399998888", "cliente", new Date(), new Date());
 		System.out.print(c);
 		Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate( c );
 		for (ConstraintViolation<Cliente> cl: constraintViolations) {
 			System.out.println(" Erro de Validacao: "+cl.getMessage());
 		}
 		Assert.assertEquals(7, constraintViolations.size() );
-		
 	}
 }

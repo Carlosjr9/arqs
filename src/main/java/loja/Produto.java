@@ -95,7 +95,7 @@ public class Produto {
 	private String nome;
 	
 	@NotBlank
-	@Pattern(regexp="[A-zÀ-ú ´\\-\\/]")
+	@Pattern(regexp="[A-zÀ-ú ´\\-\\/]*")
 	@Size(max=4000)
 	@Column(length=4000, nullable=false)
 	private String descricao;

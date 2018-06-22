@@ -12,43 +12,46 @@ import loja.Categoria;
 
 @Stateless
 @LocalBean
-public class ServicoCategoria implements DAO<Categoria, Long> {
+public class ServicoCategoria {
+
 	@Inject
 	EntityManager em;
+	
 	@Inject
 	private Logger log;
-
-	public Categoria insert(Categoria t) throws Exception {
-		log.info("Persistindo " + t);
-		em.persist(t);
-		return t;
+	
+	public Categoria insert(Categoria c) throws Exception {
+		log.info("Persistindo "+c);
+		em.persist(c);
+		return c;
 	}
-
-	public Categoria update(Categoria t) throws Exception {
-		log.info("Atualizando " + t);
-		return em.merge(t);
+	
+	public Categoria update(Categoria c) throws Exception {
+		log.info("Atualizando "+c);
+		return em.merge(c);
 	}
-
-	public void delete(Categoria t) throws Exception {
-		log.info("Removendo " + t);
-		Object c = em.merge(t);
-		em.remove(c);
+	
+	public void delete(Categoria c) throws Exception {
+		log.info("Removendo "+c);
+		Object o = em.merge(c);
+		em.remove(o);
 	}
-
+	
 	public Categoria find(Long k) throws Exception {
-		log.info("Encontrando pela chave " + k);
+		log.info("Encontrando pela chave "+k);
 		return em.find(Categoria.class, k);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public List<Categoria> findAll() throws Exception {
 		log.info("Encontrando todos os objetos");
 		return em.createQuery("from Categoria").getResultList();
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	public List<Categoria> findByName(String name) throws Exception {
-		log.info("Encontrando o " + name);
-		return em.createNamedQuery("Categoria.findByName").setParameter("nome", "%" + name + "%").getResultList();
+	public List<Categoria> findByName(String descricao) throws Exception {
+		log.info("Encontrando o "+descricao);
+		return em.createNamedQuery("Categoria.findByName")
+		.setParameter("descricao", "%"+descricao+"%").getResultList();
 	}
 }
